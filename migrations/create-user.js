@@ -23,7 +23,7 @@ module.exports = {
       },
       role_code: {
         type: Sequelize.STRING,
-        defaultValue:"TS"
+        defaultValue:"TU"
       },
       createdAt: {
         allowNull: false,

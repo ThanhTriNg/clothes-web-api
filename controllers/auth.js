@@ -1,7 +1,7 @@
 import { InternalServerError, badRequest } from '../middlewares/handle_error';
 import * as services from '../services';
 import Joi from 'joi';
-import { email, password } from '../helpers/joi._schema';
+import { email, password } from '../helpers/joi_schema';
 export const register = async (req, res) => {
     try {
         const { error } = Joi.object({
