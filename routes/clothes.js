@@ -1,10 +1,10 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+const router = Router();
 
-const clothesController = require("../controllers/clothes");
+import { getClothes, getClothesById } from "../controllers/clothes";
 
-router.get("/", clothesController.getClothes);
+router.get("/", getClothes);
 
-router.get("/:id", clothesController.getClothesById);
+router.get("/:id", getClothesById);
 
-module.exports = router;
+export default router;

@@ -1,14 +1,26 @@
-const express = require("express");
+import express from "express";
+import cors from "cors";
+import initRoutes from "./routes";
+// import auth from "./routes/auth";
 const app = express();
 
 require("dotenv").config();
+require("./util/database");
 
-const clothesRouter = require("./routes/clothes");
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use("/api/v1/clothes", clothesRouter);
+initRoutes(app);
+
+// app.use("/api/v1/clothes", clothesRouter);
+// app.use("/api/v1/auth", auth);
 
 const PORT = process.env.PORT || 5000;
 
