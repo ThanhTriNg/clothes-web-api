@@ -8,7 +8,7 @@ export const getUser = (userId) =>
                 attributes: {
                     exclude: ['password', 'role_code'],
                 },
-                include: [{ model: db.Role, as: 'roleData', attributes: ['id', 'code', 'value'] }],
+                include: [{ model: db.Role, attributes: ['id', 'code', 'value'] }],
             });
 
             resolve({
