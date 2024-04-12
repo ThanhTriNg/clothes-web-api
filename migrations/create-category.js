@@ -12,24 +12,6 @@ module.exports = {
             name: {
                 type: Sequelize.STRING,
             },
-            email: {
-                type: Sequelize.STRING,
-            },
-            password: {
-                type: Sequelize.STRING,
-            },
-            avatar: {
-                type: Sequelize.STRING,
-            },
-            role_code: {
-                allowNull: false,
-                type: Sequelize.STRING,
-                defaultValue: 'TU',
-                references: {
-                    model: 'Roles',
-                    key: 'code',
-                },
-            },
             createdAt: {
                 allowNull: false,
                 type: 'TIMESTAMP',
