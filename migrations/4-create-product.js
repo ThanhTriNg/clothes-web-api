@@ -18,8 +18,20 @@ module.exports = {
             imageUrl: {
                 type: Sequelize.STRING,
             },
+            subImageUrls: {
+                type: Sequelize.JSON,
+            },
             description: {
                 type: Sequelize.STRING,
+            },
+            descriptionSort: {
+                type: Sequelize.STRING,
+            },
+            sizes: {
+                type: Sequelize.JSON,
+            },
+            colors: {
+                type: Sequelize.JSON,
             },
             categoryId: {
                 type: Sequelize.INTEGER,

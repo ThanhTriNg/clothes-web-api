@@ -4,10 +4,7 @@ export const getAllCategories = () =>
     new Promise(async (resolve, reject) => {
         try {
             const response = await db.Category.findAll({
-                // attributes: {
-                //     exclude: ['password', 'role_code'],
-                // },
-                include: [{ model: db.Sub_Category }],
+                include: [{ model: db.Sub_Category, attributes: ['id', 'name'] }],
             });
 
             resolve({

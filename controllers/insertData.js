@@ -8,3 +8,11 @@ export const insertData = async (req, res) => {
         return InternalServerError(res);
     }
 };
+export const insertClothes = async (req, res) => {
+    try {
+        const response = await services.insertClothes(req.body);
+        return res.status(200).json(response);
+    } catch (error) {
+        return InternalServerError(res);
+    }
+};
