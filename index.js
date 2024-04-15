@@ -29,7 +29,6 @@ initRoutes(app);
 // app.use("/api/v1/auth", auth);
 
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);
 });

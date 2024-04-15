@@ -14,17 +14,12 @@ export const insertData = ({ name }) =>
         }
     });
 
-export const insertClothes = ({ name, price, description, descriptionSort, sizes, colors, subCategoryId }) =>
+export const insertClothes = (body, image) =>
     new Promise((resolve, reject) => {
         try {
             db.Product.create({
-                name,
-                price,
-                description,
-                descriptionSort,
-                sizes,
-                colors,
-                subCategoryId,
+                ...body,
+                imageUrl: image?.path,
             });
             resolve({
                 message: 'Ok',
