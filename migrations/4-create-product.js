@@ -33,17 +33,10 @@ module.exports = {
             colors: {
                 type: Sequelize.JSON,
             },
-            categoryId: {
+            subCategoryId: {
                 type: Sequelize.INTEGER,
                 references: {
-                    model: 'Categories',
-                    key: 'id',
-                },
-            },
-            genderId: {
-                type: Sequelize.INTEGER,
-                references: {
-                    model: 'Genders',
+                    model: 'Sub_Categories',
                     key: 'id',
                 },
             },

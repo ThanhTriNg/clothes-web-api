@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+
+            Product.belongsTo(models.Sub_Category, { foreignKey: 'subCategoryId' });
+            // Product.belongsTo(models.Gender, { foreignKey: 'genderId' });
+
+            // Product.hasMany(models.Product_Gender, { foreignKey: 'productId',sourceKey:'productGender' });
+            Product.hasMany(models.Product_Gender);
         }
     }
     Product.init(
@@ -19,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
             subImageUrls: DataTypes.JSON,
             description: DataTypes.STRING,
             descriptionSort: DataTypes.STRING,
-            categoryId: DataTypes.INTEGER,
-            genderId: DataTypes.INTEGER,
+            subCategoryId: DataTypes.INTEGER,
+            // productGenderId: DataTypes.INTEGER, sai roi
             sizes: DataTypes.JSON,
             colors: DataTypes.JSON,
         },

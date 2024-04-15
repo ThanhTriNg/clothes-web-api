@@ -14,7 +14,7 @@ export const insertData = ({ name }) =>
         }
     });
 
-export const insertClothes = ({ name, price, description, descriptionSort, sizes, colors, categoryId, genderId }) =>
+export const insertClothes = ({ name, price, description, descriptionSort, sizes, colors, subCategoryId }) =>
     new Promise((resolve, reject) => {
         try {
             db.Product.create({
@@ -24,8 +24,7 @@ export const insertClothes = ({ name, price, description, descriptionSort, sizes
                 descriptionSort,
                 sizes,
                 colors,
-                categoryId,
-                genderId,
+                subCategoryId,
             });
             resolve({
                 message: 'Ok',
