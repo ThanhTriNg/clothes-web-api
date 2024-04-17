@@ -1,6 +1,8 @@
 import db from '../models';
 import { Op } from 'sequelize';
 import { generatePaginationAndSortQueries } from '../helpers/servicesQueries';
+import { v2 as cloudinary } from 'cloudinary';
+
 export const getAllProduct = ({
     page = process.env.PAGE,
     pageSize = process.env.PAGE_SIZE,
@@ -84,23 +86,10 @@ export const createProduct = (body, image) =>
                 err: isCreate ? 0 : 1,
                 message: isCreate ? 'Created' : 'Product name already exists',
             });
+            if (image && isCreate === false) cloudinary.uploader.destroy(image.filename);
         } catch (error) {
+            if (image) cloudinary.uploader.destroy(image.filename);
             console.log(error);
             reject(error);
         }
     });
-
-// export const insertClothes = (body, image) =>
-//     new Promise((resolve, reject) => {
-//         try {
-//             db.Product.create({
-//                 ...body,
-//                 imageUrl: image?.path,
-//             });
-//             resolve({
-//                 message: 'Ok',
-//             });
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     });

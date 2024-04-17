@@ -9,5 +9,5 @@ router.get('/', getAllProduct);
 router.use(verifyToken);
 router.use(isAdmin);
 router.post('/add', uploadCloud.single('imageUrl'), createProduct);
-// router.post('/add', createProduct);
+
 export default router;

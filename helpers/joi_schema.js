@@ -38,6 +38,10 @@ export const productSchema = {
     description: Joi.string().allow(null).optional(),
     descriptionSort: Joi.string().allow(null).optional(),
     subCategoryId: Joi.string().allow(null).optional(),
+
+    imageUrl: Joi.string().allow(null).optional(),
+    subImageUrls: Joi.string().allow(null).optional(),
+
     sizes: joiJson.array(),
     colors: joiJson.array(),
 };
