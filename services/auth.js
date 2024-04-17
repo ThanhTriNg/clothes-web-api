@@ -18,18 +18,9 @@ export const register = ({ email, password }) =>
                 },
             });
 
-            const user = response[0];
-            const id = user.id;
-            const role_code = user.role_code;
-
-            const token = response[1]
-                ? jwt.sign({ id, email, role_code }, process.env.JWT_SECRET, { expiresIn: '1d' })
-                : null;
-
             resolve({
                 err: response[1] ? 0 : 1,
                 message: response[1] ? 'Register is successfully' : 'Email is used',
-                token,
             });
         } catch (error) {
             reject(error);
@@ -44,10 +35,9 @@ export const login = ({ email, password }) =>
                 raw: true,
             });
             const isChecked = response && bcrypt.compareSync(password, response.password);
-        
             const token = isChecked
                 ? jwt.sign(
-                      { id: response.id, email: response.email, role_code: response.role_code },
+                      { id: response.id, email: response.email, roleCode: response.roleCode },
                       process.env.JWT_SECRET,
                       { expiresIn: '1d' },
                   )

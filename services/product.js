@@ -1,5 +1,4 @@
 import db from '../models';
-import url from 'url';
 import { Op } from 'sequelize';
 import { generatePaginationAndSortQueries } from '../helpers/servicesQueries';
 export const getAllProduct = ({
@@ -68,3 +67,40 @@ export const getAllProduct = ({
             reject(error);
         }
     });
+
+export const createProduct = (body, image) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const response = await db.Product.findOrCreate({
+                where: { name: body?.name },
+                // defaults: body,
+                defaults: {
+                    ...body,
+                    imageUrl: image?.path,
+                },
+            });
+            const isCreate = response[1] ? true : false;
+            resolve({
+                err: isCreate ? 0 : 1,
+                message: isCreate ? 'Created' : 'Product name already exists',
+            });
+        } catch (error) {
+            console.log(error);
+            reject(error);
+        }
+    });
+
+// export const insertClothes = (body, image) =>
+//     new Promise((resolve, reject) => {
+//         try {
+//             db.Product.create({
+//                 ...body,
+//                 imageUrl: image?.path,
+//             });
+//             resolve({
+//                 message: 'Ok',
+//             });
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     });

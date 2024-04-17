@@ -12,7 +12,6 @@ export const insertData = async (req, res) => {
 export const insertClothes = async (req, res) => {
     try {
         const image = req.file;
-        console.log(image);
 
         const response = await services.insertClothes(req.body, image);
         return res.status(200).json(response);

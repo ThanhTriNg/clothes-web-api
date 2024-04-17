@@ -1,18 +1,13 @@
-// import { Router } from "express";
-// const router = Router();
-
-// import { getClothes, getClothesById } from "../controllers/clothes";
-
-// router.get("/", getClothes);
-
-// router.get("/:id", getClothesById);
-
-// export default router;
-
-import { getAllProduct } from "../controllers";
-import { Router } from "express";
-
+import { getAllProduct, createProduct } from '../controllers';
+import { Router } from 'express';
+import uploadCloud from '../middlewares/uploader';
+import { verifyToken } from '../middlewares/verify_token';
+import { isAdmin } from '../middlewares/verify_role';
 const router = Router();
-router.get("/", getAllProduct);
+router.get('/', getAllProduct);
 
+router.use(verifyToken);
+router.use(isAdmin);
+router.post('/add', uploadCloud.single('imageUrl'), createProduct);
+// router.post('/add', createProduct);
 export default router;

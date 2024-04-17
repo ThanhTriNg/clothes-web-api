@@ -3,7 +3,6 @@ import { InternalServerError, badRequest } from '../middlewares/handle_error';
 
 export const getCurrentUser = async (req, res) => {
     try {
-        console.log(req.user);
         const { id } = req.user;
         const response = await services.getUser(id);
         return res.status(200).json(response);
