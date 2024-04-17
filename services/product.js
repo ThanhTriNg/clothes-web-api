@@ -1,12 +1,44 @@
 import db from '../models';
-import { convertToSingleObject, convertToArray, simplifyData } from '../helpers/removeDuplicate';
-export const getAllProduct = () =>
+import url from 'url';
+import { Op } from 'sequelize';
+export const getAllProduct = ({
+    page = process.env.PAGE,
+    pageSize = process.env.PAGE_SIZE,
+    sort,
+    order,
+    name,
+    ...query
+}) =>
     new Promise(async (resolve, reject) => {
         try {
-            const response = await db.Product.findAll({
+            //custom
+            // const parsedQueryParams = url.parse(queryParams, true).query;
+            // const customAttributes = Object.keys(parsedQueryParams);
+            // const attributes = customAttributes.length > 0 ? customAttributes : null;
+            // custom;
+
+            const queries = {};
+            const offset = (page - 1) * pageSize;
+            queries.offset = +offset;
+            queries.limit = +pageSize;
+            if (sort && !order) {
+                queries.order = [sort];
+            } else {
+                queries.order = [[sort, order]];
+            }
+            
+            console.log('queries.order>>>', queries.order);
+            if (name) query.name = { [Op.substring]: name };
+
+            const { count, rows } = await db.Product.findAndCountAll({
                 // attributes: {
                 //     exclude: ['subCategoryId'],
                 // },
+                // attributes: attributes,
+
+                where: query,
+                ...queries,
+
                 include: [
                     {
                         model: db.Sub_Category,
@@ -46,12 +78,18 @@ export const getAllProduct = () =>
             //         };
             //     });
             // };
-
+            const totalCount = count;
+            const totalPages = Math.ceil(totalCount / pageSize);
             resolve({
-                data: response,
+                data: rows,
+                currentPage: page,
+                pageSize,
+                totalPages,
+                totalCount,
+                test: queries,
             });
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             reject(error);
         }
     });

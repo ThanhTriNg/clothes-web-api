@@ -1,7 +1,6 @@
 import db from '../models';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { raw } from 'mysql2';
 const hashPassword = (password) => {
     const salt = bcrypt.genSaltSync(15);
     const hash = bcrypt.hashSync(password, salt);
