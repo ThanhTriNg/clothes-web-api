@@ -19,11 +19,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
-        const { error } = Joi.object({
-            email,
-            password,
-        }).validate(req.body);
-
+        const { error } = Joi.object(authSchema).validate(req.body);
         if (error) {
             return badRequest(error.details[0].message, res);
         }

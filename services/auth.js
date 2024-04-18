@@ -48,6 +48,7 @@ export const login = ({ email, password }) =>
                 access_token: token,
             });
         } catch (error) {
+            console.log(error);
             reject(error);
         }
     });

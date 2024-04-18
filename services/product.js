@@ -24,7 +24,6 @@ export const getAllProduct = ({
                 key,
                 query,
             });
-
             const { count, rows } = await db.Product.findAndCountAll({
                 attributes: attributes,
 
@@ -38,16 +37,6 @@ export const getAllProduct = ({
                         include: [
                             {
                                 model: db.Category,
-                                attributes: ['id', 'name'],
-                            },
-                        ],
-                    },
-                    {
-                        model: db.Product_Gender,
-                        attributes: ['id', 'genderId'],
-                        include: [
-                            {
-                                model: db.Gender,
                                 attributes: ['id', 'name'],
                             },
                         ],

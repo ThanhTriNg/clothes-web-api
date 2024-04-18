@@ -11,6 +11,7 @@ module.exports = {
             },
             name: {
                 type: Sequelize.STRING,
+                allowNull: false,
             },
             price: {
                 type: Sequelize.INTEGER,
@@ -22,7 +23,7 @@ module.exports = {
                 type: Sequelize.JSON,
             },
             description: {
-                type: Sequelize.STRING,
+                type: Sequelize.TEXT,
             },
             descriptionSort: {
                 type: Sequelize.STRING,
@@ -32,6 +33,15 @@ module.exports = {
             },
             colors: {
                 type: Sequelize.JSON,
+            },
+            gender: {
+                type: Sequelize.ENUM('male', 'female', 'both'),
+                allowNull: false,
+            },
+            stock: {
+                type: Sequelize.INTEGER,
+                defaultValue: 0,
+                allowNull: false,
             },
             subCategoryId: {
                 type: Sequelize.INTEGER,

@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             Product.belongsTo(models.Sub_Category, { foreignKey: 'subCategoryId' });
-            Product.hasMany(models.Product_Gender);
         }
     }
     Product.init(
@@ -19,12 +18,13 @@ module.exports = (sequelize, DataTypes) => {
             price: DataTypes.INTEGER,
             imageUrl: DataTypes.STRING,
             subImageUrls: DataTypes.JSON,
-            description: DataTypes.STRING,
+            description: DataTypes.TEXT,
             descriptionSort: DataTypes.STRING,
             subCategoryId: DataTypes.INTEGER,
-            // productGenderId: DataTypes.INTEGER, sai roi
             sizes: DataTypes.JSON,
             colors: DataTypes.JSON,
+            gender: DataTypes.ENUM('male', 'female', 'both'),
+            stock: DataTypes.INTEGER,
         },
         {
             sequelize,

@@ -6,17 +6,31 @@ const joiJson = Joi.extend({
     base: Joi.array(),
     messages: {
         'array.base': '{{#label}} must be a valid JSON array',
+        'array.sizes': '{{#label}} must be a valid XS|S|M|L|XL',
     },
     coerce: {
         from: 'string',
         method(value, helpers) {
             if (typeof value !== 'string' || (value[0] !== '[' && !/^\s*\[/.test(value))) {
+                console.log('value>>', value);
                 return;
             }
 
             try {
                 return { value: JSON.parse(value) };
             } catch (ignoreErr) {}
+        },
+    },
+    rules: {
+        sizes: {
+            validate(value, helpers, args, options) {
+                const regex = /^((XS|S|M|L|XL),?)+$/;
+                const stringValue = value.toString();
+                if (!regex.test(stringValue)) {
+                    return helpers.error('array.sizes');
+                }
+                return value;
+            },
         },
     },
 });
@@ -33,15 +47,15 @@ export const order = Joi.string().valid('ASC', 'DESC');
 export const productSchema = {
     // -- required
     name: Joi.string().required(),
-    price: Joi.number().required().messages(),
     // -- allow null
-    description: Joi.string().allow(null).optional(),
-    descriptionSort: Joi.string().allow(null).optional(),
-    subCategoryId: Joi.string().allow(null).optional(),
-
-    imageUrl: Joi.string().allow(null).optional(),
-    subImageUrls: Joi.string().allow(null).optional(),
-
-    sizes: joiJson.array(),
+    stock: Joi.number().min(0),
+    price: Joi.number(),
+    description: Joi.string(),
+    descriptionSort: Joi.string(),
+    subCategoryId: Joi.string(),
+    imageUrl: Joi.string(),
+    subImageUrls: Joi.string(),
     colors: joiJson.array(),
+    sizes: joiJson.array().sizes(),
+    gender: Joi.string().valid('male', 'female', 'both'),
 };
