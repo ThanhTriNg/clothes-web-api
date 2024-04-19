@@ -59,3 +59,19 @@ export const productSchema = {
     sizes: joiJson.array().sizes(),
     gender: Joi.string().valid('male', 'female', 'both'),
 };
+
+//product -- update
+export const updateProductSchema = {
+    // -- allow null
+    name: Joi.string(),
+    stock: Joi.number().min(0),
+    price: Joi.number(),
+    description: Joi.string(),
+    descriptionSort: Joi.string(),
+    subCategoryId: Joi.string(),
+    imageUrl: Joi.string(),
+    subImageUrls: Joi.string(),
+    colors: joiJson.array(),
+    sizes: joiJson.array().sizes(),
+    gender: Joi.string().valid('male', 'female', 'both'),
+};

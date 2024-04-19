@@ -1,4 +1,4 @@
-import { getAllProduct, createProduct } from '../controllers';
+import { getAllProduct, createProduct, updateProduct } from '../controllers';
 import { Router } from 'express';
 import uploadCloud from '../middlewares/uploader';
 import { verifyToken } from '../middlewares/verify_token';
@@ -9,5 +9,6 @@ router.get('/', getAllProduct);
 router.use(verifyToken);
 router.use(isAdmin);
 router.post('/add', uploadCloud.single('imageUrl'), createProduct);
+router.patch('/:id', uploadCloud.single('imageUrl'), updateProduct);
 
 export default router;
