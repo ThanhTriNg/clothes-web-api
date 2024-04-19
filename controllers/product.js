@@ -42,7 +42,6 @@ export const updateProduct = async (req, res) => {
     try {
         const image = req.file;
         const id = req.params.id;
-        console.log('image>', image);
 
         const { error } = Joi.object(updateProductSchema).validate({ ...req.body, imageUrl: image?.path });
         if (error) {

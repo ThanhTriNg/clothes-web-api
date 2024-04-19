@@ -12,7 +12,6 @@ const joiJson = Joi.extend({
         from: 'string',
         method(value, helpers) {
             if (typeof value !== 'string' || (value[0] !== '[' && !/^\s*\[/.test(value))) {
-                console.log('value>>', value);
                 return;
             }
 

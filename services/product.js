@@ -19,7 +19,6 @@ export const getAllProduct = ({
         try {
             if (name) query.name = { [Op.substring]: name };
             if (minPrice && maxPrice) query.price = { [Op.between]: [minPrice, maxPrice] };
-            console.log('query>>', query);
             const { queries, attributes } = generatePaginationAndSortQueries({
                 page,
                 pageSize,
@@ -81,9 +80,9 @@ export const createProduct = (body, image) =>
             // if (image && isCreate === false) cloudinary.uploader.destroy(image.filename);
             if (image && isCreate === false)
                 cloudinary.uploader.destroy(image.filename, (err, res) => {
-                    console.log('cloudinary err>>', err);
-                    console.log('image.filename', image.filename);
-                    console.log('cloudinary res>>', res);
+                    // console.log('cloudinary err>>', err);
+                    // console.log('image.filename', image.filename);
+                    // console.log('cloudinary res>>', res);
                 });
         } catch (error) {
             if (image) cloudinary.uploader.destroy(image.filename);
