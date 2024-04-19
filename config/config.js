@@ -40,17 +40,25 @@ module.exports = {
         timezone: '+07:00',
     },
     test: {
-        username: 'root',
-        password: '12345678',
-        database: 'database_test',
-         host: process.env.DB_HOST,
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_DBNAME,
+        host: process.env.DB_HOST,
         dialect: 'mysql',
+        dialectOptions: {
+            useUTC: false,
+        },
+        timezone: '+07:00',
     },
     production: {
-        username: 'root',
-        password: '12345678',
-        database: 'database_production',
-         host: process.env.DB_HOST,
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_DBNAME,
+        host: process.env.DB_HOST,
         dialect: 'mysql',
+        dialectOptions: {
+            useUTC: false,
+        },
+        timezone: '+07:00',
     },
 };
