@@ -63,15 +63,6 @@ export const productSchema = {
 //product -- update
 export const updateProductSchema = {
     // -- allow null
+    ...productSchema,
     name: Joi.string(),
-    stock: Joi.number().min(0),
-    price: Joi.number(),
-    description: Joi.string(),
-    descriptionSort: Joi.string(),
-    subCategoryId: Joi.string(),
-    imageUrl: Joi.string(),
-    subImageUrls: Joi.string(),
-    colors: joiJson.array(),
-    sizes: joiJson.array().sizes(),
-    gender: Joi.string().valid('male', 'female', 'both'),
 };
