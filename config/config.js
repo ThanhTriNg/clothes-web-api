@@ -43,14 +43,14 @@ module.exports = {
         username: 'root',
         password: '12345678',
         database: 'database_test',
-        host: '127.0.0.1',
+         host: process.env.DB_HOST,
         dialect: 'mysql',
     },
     production: {
         username: 'root',
         password: '12345678',
         database: 'database_production',
-        host: '127.0.0.1',
+         host: process.env.DB_HOST,
         dialect: 'mysql',
     },
 };
