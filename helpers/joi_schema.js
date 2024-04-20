@@ -39,6 +39,17 @@ export const authSchema = {
     email: Joi.string().pattern(new RegExp('gmail.com$')).required(),
     password: Joi.string().min(8).required(),
 };
+
+//user
+export const userSchema = {
+    roleCode: Joi.string().valid('TA', 'TU'),
+};
+//category
+
+export const categorySchema = {
+    name: Joi.string().required(),
+};
+
 //order
 export const order = Joi.string().valid('ASC', 'DESC');
 

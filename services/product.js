@@ -4,7 +4,7 @@ import { generatePaginationAndSortQueries } from '../helpers/servicesQueries';
 import { v2 as cloudinary } from 'cloudinary';
 import { getFileNameFromUrl } from '../helpers/cloudinary';
 
-export const getAllProduct = ({
+export const getAllProducts = ({
     page = process.env.PAGE,
     pageSize = process.env.PAGE_SIZE,
     sort,
@@ -25,7 +25,6 @@ export const getAllProduct = ({
                 sort,
                 order,
                 key,
-                query,
             });
             const { count, rows } = await db.Product.findAndCountAll({
                 attributes: attributes,
@@ -54,6 +53,35 @@ export const getAllProduct = ({
                 pageSize,
                 totalPages,
                 totalCount,
+            });
+        } catch (error) {
+            console.log(error);
+            reject(error);
+        }
+    });
+
+export const getProduct = (id) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const response = await db.Product.findOne({
+                where: { id },
+                include: [
+                    {
+                        model: db.Sub_Category,
+                        attributes: ['id', 'name', 'categoryId'],
+                        include: [
+                            {
+                                model: db.Category,
+                                attributes: ['id', 'name'],
+                            },
+                        ],
+                    },
+                ],
+            });
+
+            resolve({
+                message: response ? 'Successfully' : `Not found id = ${id}`,
+                response,
             });
         } catch (error) {
             console.log(error);
@@ -95,9 +123,7 @@ export const updateProduct = (body, id, image) =>
     new Promise(async (resolve, reject) => {
         try {
             const responseFindOne = await db.Product.findOne({
-                where: {
-                    id,
-                },
+                where: { id },
             });
             const oldImgUrl = responseFindOne?.imageUrl;
 
@@ -116,7 +142,6 @@ export const updateProduct = (body, id, image) =>
             );
             const isUpdated = response[0] === 1 ? true : false;
             resolve({
-                responseFindOne: responseFindOne,
                 err: isUpdated ? 0 : 1,
                 message: isUpdated ? 'Successfully' : `Not found id = ${id}`,
                 data: isUpdated,
@@ -124,6 +149,38 @@ export const updateProduct = (body, id, image) =>
             if (image && isUpdated === false) cloudinary.uploader.destroy(image.filename);
         } catch (error) {
             if (image) cloudinary.uploader.destroy(image.filename);
+            console.log(error);
+            reject(error);
+        }
+    });
+
+export const deleteProduct = (id) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const responseFindOne = await db.Product.findOne({
+                where: {
+                    id,
+                },
+            });
+            const oldImgUrl = responseFindOne?.imageUrl;
+
+            if (oldImgUrl) {
+                const fileName = getFileNameFromUrl(oldImgUrl);
+                await cloudinary.uploader.destroy(fileName);
+            }
+
+            const response = await db.Product.destroy({
+                where: {
+                    id,
+                },
+            });
+            const isDelete = response ? true : false;
+            resolve({
+                err: isDelete ? 0 : 1,
+                message: isDelete ? 'Successfully' : `Not found id = ${id}`,
+                data: isDelete,
+            });
+        } catch (error) {
             console.log(error);
             reject(error);
         }

@@ -1,11 +1,11 @@
-import Joi, { object } from 'joi';
-import { productSchema, order, updateProductSchema } from '../helpers/joi_schema';
-import { badRequest, InternalServerError } from '../middlewares/handle_error';
+import Joi from 'joi';
+import { order, productSchema, updateProductSchema } from '../helpers/joi_schema';
+import { InternalServerError, badRequest } from '../middlewares/handle_error';
 import * as services from '../services';
 
 import { v2 as cloudinary } from 'cloudinary';
 
-export const getAllProduct = async (req, res) => {
+export const getAllProducts = async (req, res) => {
     try {
         const { error } = Joi.object({
             order,
@@ -14,7 +14,17 @@ export const getAllProduct = async (req, res) => {
             return badRequest(error.details[0].message, res);
         }
 
-        const response = await services.getAllProduct(req.query);
+        const response = await services.getAllProducts(req.query);
+        return res.status(200).json(response);
+    } catch (error) {
+        return InternalServerError(res);
+    }
+};
+
+export const getProduct = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const response = await services.getProduct(id);
         return res.status(200).json(response);
     } catch (error) {
         return InternalServerError(res);
@@ -49,6 +59,18 @@ export const updateProduct = async (req, res) => {
             return badRequest(error.details[0].message, res);
         }
         const response = await services.updateProduct(req.body, id, image);
+        return res.status(200).json(response);
+    } catch (error) {
+        console.log(error);
+        return InternalServerError(res);
+    }
+};
+
+export const deleteProduct = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        const response = await services.deleteProduct(id);
         return res.status(200).json(response);
     } catch (error) {
         console.log(error);

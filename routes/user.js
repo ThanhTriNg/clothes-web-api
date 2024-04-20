@@ -1,11 +1,10 @@
-import { getCurrentUser } from '../controllers';
-import { getAllUserTU } from '../controllers';
+import { getCurrentUser, getAllUsers } from '../controllers';
 import { Router } from 'express';
 import { verifyToken } from '../middlewares/verify_token';
 const router = Router();
 
 //PUBLIC
-router.get('/countTU', getAllUserTU);
+router.get('/a', getAllUsers);
 
 //PRIVATE
 router.use(verifyToken);

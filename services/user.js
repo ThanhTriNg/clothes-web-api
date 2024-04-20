@@ -21,16 +21,17 @@ export const getUser = (userId) =>
         }
     });
 
-export const getAllUserTU = (role_code) =>
+export const getAllUsers = ({ roleCode }) =>
     new Promise(async (resolve, reject) => {
+        const isRoleCode = roleCode ? {roleCode} : null;
         try {
             const response = await db.User.findAll({
-                where: { role_code },
+                where: isRoleCode,
             });
 
             resolve({
                 err: response ? 0 : 1,
-                message: response ? 'Successfully' : 'Email not found',
+                message: response ? 'Successfully' : 'Not found',
                 data: response,
             });
         } catch (error) {
