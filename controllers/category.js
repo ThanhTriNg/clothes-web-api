@@ -3,6 +3,7 @@ import { categorySchema } from '../helpers/joi_schema';
 import { InternalServerError, badRequest } from '../middlewares/handle_error';
 import * as services from '../services';
 
+//categories
 export const getAllCategories = async (req, res) => {
     try {
         const response = await services.getAllCategories();
@@ -14,7 +15,7 @@ export const getAllCategories = async (req, res) => {
 };
 export const getCategory = async (req, res) => {
     try {
-        const id = req.params.id
+        const id = req.params.id;
         const response = await services.getCategory(id);
         return res.status(200).json(response);
     } catch (error) {

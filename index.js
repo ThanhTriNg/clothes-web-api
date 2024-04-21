@@ -13,12 +13,14 @@ require('./util/database');
 //     methods: ["GET", "POST", "PUT", "DELETE"],
 //   })
 // );
-const corsOptions = {
-    origin: process.env.CLIENT_URL,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+// console.log('test?', process.env.CLIENT_URL);
+// const corsOptions = {
+//     origin: process.env.CLIENT_URL,
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     optionsSuccessStatus: 200,
+// };
+// app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

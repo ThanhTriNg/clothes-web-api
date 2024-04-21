@@ -45,12 +45,12 @@ export const getAllProducts = ({
                 ],
             });
 
-            const totalCount = count;
+            const totalCount = parseInt(count);
             const totalPages = Math.ceil(totalCount / pageSize);
             resolve({
                 data: rows,
-                currentPage: page,
-                pageSize,
+                currentPage: parseInt(page),
+                pageSize: parseInt(pageSize),
                 totalPages,
                 totalCount,
             });
