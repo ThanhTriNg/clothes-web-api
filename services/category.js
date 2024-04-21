@@ -6,7 +6,6 @@ export const getAllCategories = () =>
         try {
             const response = await db.Category.findAll({
                 include: [{ model: db.Sub_Category, attributes: ['id', 'name'] }],
-          
             });
 
             resolve({
@@ -55,19 +54,16 @@ export const createCategory = (body) =>
         }
     });
 
-export const updateCategory = ({ id, name }) =>
+export const updateCategory = (body, id) =>
     new Promise(async (resolve, reject) => {
+        console.log(body, id);
         try {
-            console.log('id, name', id, name);
-
-            const response = await db.Category.update(
-                { name },
-                {
-                    where: {
-                        id,
-                    },
+            const response = await db.Category.update(body, {
+                where: {
+                    id,
                 },
-            );
+            });
+            console.log(response);
             const isUpdated = response[0] === 1 ? true : false;
             resolve({
                 err: isUpdated ? 0 : 1,

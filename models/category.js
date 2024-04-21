@@ -9,12 +9,13 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Category.hasMany(models.Sub_Category)
+            Category.hasMany(models.Sub_Category);
         }
     }
     Category.init(
         {
             name: DataTypes.STRING,
+            gender: DataTypes.ENUM('male', 'female', 'both'),
         },
         {
             sequelize,

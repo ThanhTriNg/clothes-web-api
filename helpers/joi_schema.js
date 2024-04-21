@@ -48,6 +48,11 @@ export const userSchema = {
 
 export const categorySchema = {
     name: Joi.string().required(),
+    gender: Joi.string().valid('male', 'female', 'both').required(),
+};
+export const updateCategorySchema = {
+    name: Joi.string(),
+    gender: Joi.string().valid('male', 'female', 'both'),
 };
 
 //order
@@ -62,7 +67,7 @@ export const productSchema = {
     price: Joi.number(),
     description: Joi.string(),
     descriptionSort: Joi.string(),
-    subCategoryId: Joi.string(),
+    subCategoryId: Joi.number(),
     imageUrl: Joi.string(),
     subImageUrls: Joi.string(),
     colors: joiJson.array(),
