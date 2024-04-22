@@ -1,10 +1,33 @@
+import { generatePaginationAndSortQueries } from '../helpers/servicesQueries';
 import db from '../models';
 
 //sub categories
-export const getAllSubCategories = () =>
+export const getAllSubCategories = ({
+    page = process.env.PAGE,
+    pageSize = process.env.PAGE_SIZE,
+    sort,
+    order,
+    name,
+    minPrice,
+    maxPrice,
+    key,
+    ...query
+}) =>
     new Promise(async (resolve, reject) => {
         try {
-            const response = await db.Sub_Category.findAll();
+            const { queries, attributes } = generatePaginationAndSortQueries({
+                page,
+                pageSize,
+                sort,
+                order,
+                key,
+            });
+            const response = await db.Sub_Category.findAll({
+                attributes: attributes,
+                where: query,
+                ...queries,
+           
+            });
             resolve({
                 err: response ? 0 : 1,
                 message: response ? 'Successfully' : 'Not found',

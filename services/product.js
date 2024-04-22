@@ -10,6 +10,7 @@ export const getAllProducts = ({
     sort,
     order,
     name,
+    subCategoryId,
     minPrice,
     maxPrice,
     key,
@@ -19,6 +20,11 @@ export const getAllProducts = ({
         try {
             if (name) query.name = { [Op.substring]: name };
             if (minPrice && maxPrice) query.price = { [Op.between]: [minPrice, maxPrice] };
+            console.log('query.subCategoryId>', query.subCategoryId);
+            if (subCategoryId) {
+                const subCateArray = subCategoryId.split(',').map(Number);
+                query.subCategoryId = { [Op.or]: [subCateArray] };
+            }
             const { queries, attributes } = generatePaginationAndSortQueries({
                 page,
                 pageSize,
@@ -29,6 +35,7 @@ export const getAllProducts = ({
             const { count, rows } = await db.Product.findAndCountAll({
                 attributes: attributes,
                 where: query,
+
                 ...queries,
 
                 include: [

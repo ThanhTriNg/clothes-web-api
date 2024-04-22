@@ -4,7 +4,7 @@ import * as services from '../services';
 //sub categories
 export const getAllSubCategories = async (req, res) => {
     try {
-        const response = await services.getAllSubCategories();
+        const response = await services.getAllSubCategories(req.query);
         return res.status(200).json(response);
     } catch (error) {
         console.log(error);
