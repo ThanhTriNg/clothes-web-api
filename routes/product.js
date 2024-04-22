@@ -1,4 +1,4 @@
-import { getAllProducts,getProduct, createProduct, updateProduct, deleteProduct } from '../controllers';
+import { getAllProducts, getProduct, createProduct, updateProduct, deleteProduct } from '../controllers';
 import { Router } from 'express';
 import uploadCloud from '../middlewares/uploader';
 import { verifyToken } from '../middlewares/verify_token';
@@ -7,10 +7,24 @@ const router = Router();
 router.get('/', getAllProducts);
 router.get('/:id', getProduct);
 
+const uploadImage = uploadCloud.fields([
+    {
+        name: 'imageUrl',
+        maxCount: 1,
+    },
+    {
+        name: 'subImageUrls',
+        maxCount: 4,
+    },
+]);
+
 // router.use(verifyToken);
 // router.use(isAdmin);
-router.post('/', uploadCloud.single('imageUrl'), createProduct);
-router.patch('/:id', uploadCloud.single('imageUrl'), updateProduct);
+
+router.post('/', uploadImage, createProduct);
+
+router.patch('/:id', uploadImage, updateProduct);
+
 router.delete('/:id', deleteProduct);
 
 export default router;

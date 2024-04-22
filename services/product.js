@@ -20,7 +20,6 @@ export const getAllProducts = ({
         try {
             if (name) query.name = { [Op.substring]: name };
             if (minPrice && maxPrice) query.price = { [Op.between]: [minPrice, maxPrice] };
-            console.log('query.subCategoryId>', query.subCategoryId);
             if (subCategoryId) {
                 const subCateArray = subCategoryId.split(',').map(Number);
                 query.subCategoryId = { [Op.or]: [subCateArray] };
@@ -96,15 +95,16 @@ export const getProduct = (id) =>
         }
     });
 
-export const createProduct = (body, image) =>
+export const createProduct = (body, image, images) =>
     new Promise(async (resolve, reject) => {
         try {
+            const subImageUrls = images?.map((obj) => obj.path);
             const response = await db.Product.findOrCreate({
                 where: { name: body?.name },
-                // defaults: body,
                 defaults: {
                     ...body,
-                    imageUrl: image?.path,
+                    imageUrl: image[0].path,
+                    subImageUrls,
                 },
             });
             const isCreate = response[1] ? true : false;
@@ -126,7 +126,7 @@ export const createProduct = (body, image) =>
         }
     });
 
-export const updateProduct = (body, id, image) =>
+export const updateProduct = (body, id, image, images) =>
     new Promise(async (resolve, reject) => {
         try {
             const responseFindOne = await db.Product.findOne({
@@ -139,8 +139,10 @@ export const updateProduct = (body, id, image) =>
                 await cloudinary.uploader.destroy(fileName);
             }
 
+            const subImageUrls = images?.map((obj) => obj.path);
+
             const response = await db.Product.update(
-                { ...body, imageUrl: image?.path },
+                { ...body, imageUrl: image[0].path, subImageUrls },
                 {
                     where: {
                         id,

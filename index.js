@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import initRoutes from './routes';
+import bodyParser from 'body-parser';
 // import auth from "./routes/auth";
 const app = express();
 
@@ -20,10 +21,13 @@ require('./util/database');
 //     optionsSuccessStatus: 200,
 // };
 // app.use(cors(corsOptions));
+
 app.use(cors());
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 initRoutes(app);
 

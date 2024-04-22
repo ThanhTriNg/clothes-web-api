@@ -33,14 +33,24 @@ export const getProduct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const image = req.file;
-        const { error } = Joi.object(productSchema).validate({ ...req.body, imageUrl: image?.path });
+        const images = req.files;
+
+        const { error } = Joi.object(productSchema).validate({ ...req.body });
         if (error) {
-            if (image) cloudinary.uploader.destroy(image.filename);
+            if (images.imageUrl) {
+                images.imageUrl.forEach((img) => {
+                    cloudinary.uploader.destroy(img.filename);
+                });
+            }
+            if (images.subImageUrls) {
+                images.subImageUrls.forEach((img) => {
+                    cloudinary.uploader.destroy(img.filename);
+                });
+            }
             return badRequest(error.details[0].message, res);
         }
 
-        const response = await services.createProduct(req.body, image);
+        const response = await services.createProduct(req.body, images.imageUrl, images.subImageUrls);
         return res.status(200).json(response);
     } catch (error) {
         console.log(error);
@@ -50,15 +60,23 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
-        const image = req.file;
+        const images = req.files;
         const id = req.params.id;
-
-        const { error } = Joi.object(updateProductSchema).validate({ ...req.body, imageUrl: image?.path });
+        const { error } = Joi.object(productSchema).validate({ ...req.body });
         if (error) {
-            if (image) cloudinary.uploader.destroy(image.filename);
+            if (images.imageUrl) {
+                images.imageUrl.forEach((img) => {
+                    cloudinary.uploader.destroy(img.filename);
+                });
+            }
+            if (images.subImageUrls) {
+                images.subImageUrls.forEach((img) => {
+                    cloudinary.uploader.destroy(img.filename);
+                });
+            }
             return badRequest(error.details[0].message, res);
         }
-        const response = await services.updateProduct(req.body, id, image);
+        const response = await services.updateProduct(req.body, id, images.imageUrl, images.subImageUrls);
         return res.status(200).json(response);
     } catch (error) {
         console.log(error);
