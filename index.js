@@ -8,12 +8,13 @@ const app = express();
 require('dotenv').config();
 require('./util/database');
 
-// app.use(
-//   cors({
-//     origin: process.env.CLIENT_URL,
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//   })
-// );
+app.use(
+    cors({
+        origin: process.env.CLIENT_URL,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        optionsSuccessStatus: 200,
+    }),
+);
 // console.log('test?', process.env.CLIENT_URL);
 // const corsOptions = {
 //     origin: process.env.CLIENT_URL,
@@ -22,7 +23,7 @@ require('./util/database');
 // };
 // app.use(cors(corsOptions));
 
-app.use(cors());
+// app.use(cors());
 
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));

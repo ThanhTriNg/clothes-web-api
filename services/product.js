@@ -87,7 +87,7 @@ export const getProduct = (id) =>
 
             resolve({
                 message: response ? 'Successfully' : `Not found id = ${id}`,
-                response,
+                data: response,
             });
         } catch (error) {
             console.log(error);
@@ -132,6 +132,7 @@ export const updateProduct = (body, id, image, images) =>
             const responseFindOne = await db.Product.findOne({
                 where: { id },
             });
+            console.log('body.colors>', body.colors);
             const oldImgUrl = responseFindOne?.imageUrl;
 
             if (oldImgUrl) {
@@ -142,7 +143,8 @@ export const updateProduct = (body, id, image, images) =>
             const subImageUrls = images?.map((obj) => obj.path);
 
             const response = await db.Product.update(
-                { ...body, imageUrl: image[0].path, subImageUrls },
+                // { ...body, imageUrl: image[0].path, subImageUrls },
+                { ...body },
                 {
                     where: {
                         id,

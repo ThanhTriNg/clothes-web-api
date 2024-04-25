@@ -61,25 +61,28 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
     try {
         const images = req.files;
+        const image= req.file;
+        console.log(image);
+        console.log(images);
         const id = req.params.id;
-        const { error } = Joi.object(productSchema).validate({ ...req.body });
-        if (error) {
-            if (images.imageUrl) {
-                images.imageUrl.forEach((img) => {
-                    cloudinary.uploader.destroy(img.filename);
-                });
-            }
-            if (images.subImageUrls) {
-                images.subImageUrls.forEach((img) => {
-                    cloudinary.uploader.destroy(img.filename);
-                });
-            }
-            return badRequest(error.details[0].message, res);
-        }
+        // const { error } = Joi.object(updateProductSchema).validate({ ...req.body });
+        // if (error) {
+        //     if (images.imageUrl) {
+        //         images.imageUrl.forEach((img) => {
+        //             cloudinary.uploader.destroy(img.filename);
+        //         });
+        //     }
+        //     if (images.subImageUrls) {
+        //         images.subImageUrls.forEach((img) => {
+        //             cloudinary.uploader.destroy(img.filename);
+        //         });
+        //     }
+        //     return badRequest(error.details[0].message, res);
+        // }
         const response = await services.updateProduct(req.body, id, images.imageUrl, images.subImageUrls);
         return res.status(200).json(response);
     } catch (error) {
-        console.log(error);
+        console.log('error>>>', error);
         return InternalServerError(res);
     }
 };
