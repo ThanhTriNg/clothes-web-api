@@ -1,4 +1,4 @@
-import { InternalServerError, badRequest } from '../middlewares/handle_error';
+import { InternalServerError, badRequest, unAuth } from '../middlewares/handle_error';
 import * as services from '../services';
 import Joi from 'joi';
 import { authSchema } from '../helpers/joi_schema';
@@ -24,9 +24,11 @@ export const login = async (req, res) => {
             return badRequest(error.details[0].message, res);
         }
         const response = await services.login(req.body);
-        return res.status(200).json({
-            response,
-        });
+        if (response.err === 1) {
+            // Login failed
+            return unAuth(response.message, res);
+        }
+        return res.status(200).json(response);
     } catch (error) {
         return InternalServerError(res);
     }

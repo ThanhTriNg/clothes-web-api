@@ -59,10 +59,10 @@ module.exports = {
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
             },
             updatedAt: {
-                // allowNull: false,
+                allowNull: false,
                 type: 'TIMESTAMP',
-                // defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-                onUpdate: Sequelize.literal('CURRENT_TIMESTAMP'),
+                defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+                // onUpdate: Sequelize.literal('CURRENT_TIMESTAMP'),
             },
         });
     },
