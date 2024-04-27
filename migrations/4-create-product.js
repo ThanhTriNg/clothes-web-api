@@ -20,8 +20,8 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             subImageUrls: {
-                // type: Sequelize.JSON,
-                type: Sequelize.TEXT,
+                type: Sequelize.JSON,
+                // type: Sequelize.TEXT,
             },
             description: {
                 type: Sequelize.TEXT,
@@ -30,12 +30,12 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             sizes: {
-                // type: Sequelize.JSON,
-                type: Sequelize.TEXT,
+                type: Sequelize.JSON,
+                // type: Sequelize.TEXT,
             },
             colors: {
-                // type: Sequelize.JSON,
-                type: Sequelize.TEXT,
+                type: Sequelize.JSON,
+                // type: Sequelize.TEXT,
             },
             gender: {
                 type: Sequelize.ENUM('male', 'female', 'both'),
