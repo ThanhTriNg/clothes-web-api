@@ -8,27 +8,24 @@ const app = express();
 require('dotenv').config();
 require('./util/database');
 
-app.use(
-    cors({
-        origin: process.env.CLIENT_URL,
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
-        optionsSuccessStatus: 200,
-    }),
-);
-// console.log('test?', process.env.CLIENT_URL);
-// const corsOptions = {
-//     origin: process.env.CLIENT_URL,
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     optionsSuccessStatus: 200,
-// };
-// app.use(cors(corsOptions));
+// app.use(
+//     cors({
+//         origin: process.env.CLIENT_URL,
+//         methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//         optionsSuccessStatus: 200,
+//     }),
+// );
 
-// app.use(cors());
+const corsOptions = {
+    origin: process.env.CLIENT_URL,
+    methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
+    optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 initRoutes(app);
 
@@ -37,5 +34,5 @@ initRoutes(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`http://localhost:${PORT}`);
+    // console.log(error);(`http://localhost:${PORT}`);
 });

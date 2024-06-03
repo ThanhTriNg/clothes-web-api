@@ -23,7 +23,7 @@ export const register = ({ email, password }) =>
                 message: response[1] ? 'Register is successfully' : 'Email is used',
             });
         } catch (error) {
-            console.log(error);
+            // console.log(error);(error);
 
             reject(error);
         }
@@ -37,6 +37,7 @@ export const login = ({ email, password }) =>
                 raw: true,
             });
             const isChecked = response && bcrypt.compareSync(password, response.password);
+            //create token
             const token = isChecked
                 ? jwt.sign(
                       { id: response.id, email: response.email, roleCode: response.roleCode },
@@ -50,7 +51,7 @@ export const login = ({ email, password }) =>
                 access_token: token,
             });
         } catch (error) {
-            console.log(error);
+            // console.log(error);(error);
             reject(error);
         }
     });

@@ -10,7 +10,7 @@ export const insertData = ({ name }) =>
                 message: 'Ok',
             });
         } catch (error) {
-            console.log(error);
+            // console.log(error);(error);
         }
     });
 
@@ -25,6 +25,6 @@ export const insertClothes = (body, image) =>
                 message: 'Ok',
             });
         } catch (error) {
-            console.log(error);
+            // console.log(error);(error);
         }
     });

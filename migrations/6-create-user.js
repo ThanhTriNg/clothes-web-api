@@ -9,7 +9,10 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            name: {
+            fName: {
+                type: Sequelize.STRING,
+            },
+            lName: {
                 type: Sequelize.STRING,
             },
             email: {
@@ -19,6 +22,12 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             avatar: {
+                type: Sequelize.STRING,
+            },
+            address: {
+                type: Sequelize.STRING,
+            },
+            phone: {
                 type: Sequelize.STRING,
             },
             roleCode: {

@@ -9,7 +9,7 @@ export const getAllCategories = async (req, res) => {
         const response = await services.getAllCategories();
         return res.status(200).json(response);
     } catch (error) {
-        console.log(error);
+        // // console.log(error);(error);
         return InternalServerError(res);
     }
 };
@@ -19,13 +19,14 @@ export const getCategory = async (req, res) => {
         const response = await services.getCategory(id);
         return res.status(200).json(response);
     } catch (error) {
-        console.log(error);
+        // console.log(error);(error);
         return InternalServerError(res);
     }
 };
 
 export const createCategory = async (req, res) => {
     try {
+        // console.log(error);(req);
         const { error } = Joi.object(categorySchema).validate(req.body);
         if (error) {
             return badRequest(error.details[0].message, res);
@@ -34,7 +35,7 @@ export const createCategory = async (req, res) => {
         const response = await services.createCategory(req.body);
         return res.status(200).json(response);
     } catch (error) {
-        console.log(error);
+        // console.log(error);(error);
         return InternalServerError(res);
     }
 };
@@ -50,7 +51,7 @@ export const updateCategory = async (req, res) => {
         const response = await services.updateCategory(req.body, id);
         return res.status(200).json(response);
     } catch (error) {
-        console.log(error);
+        // console.log(error);(error);
         return InternalServerError(res);
     }
 };
@@ -61,7 +62,7 @@ export const deleteCategory = async (req, res) => {
         const response = await services.deleteCategory(id);
         return res.status(200).json(response);
     } catch (error) {
-        console.log(error);
+        // console.log(error);(error);
         return InternalServerError(res);
     }
 };

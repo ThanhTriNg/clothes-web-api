@@ -61,7 +61,7 @@ export const getAllProducts = ({
                 totalCount,
             });
         } catch (error) {
-            console.log(error);
+            // console.log(error);(error);
             reject(error);
         }
     });
@@ -90,7 +90,7 @@ export const getProduct = (id) =>
                 data: response,
             });
         } catch (error) {
-            console.log(error);
+            // console.log(error);(error);
             reject(error);
         }
     });
@@ -98,12 +98,25 @@ export const getProduct = (id) =>
 export const createProduct = (body, image, images) =>
     new Promise(async (resolve, reject) => {
         try {
-            const subImageUrls = images?.map((obj) => obj.path);
+            // // console.log(error);('image, images>>>', image, images);
+            let subImageUrls;
+            let imageUrl;
+            // // console.log(error);('image service', image);
+            // // console.log(error);('images service', images);
+            if (image) {
+                imageUrl = image[0]?.path;
+            }
+
+            if (images) {
+                subImageUrls = images?.map((obj) => obj.path);
+            }
+            // console.log(error);('imageUrl>>', imageUrl);
+            // console.log(error);('subImageUrls>>', subImageUrls);
             const response = await db.Product.findOrCreate({
                 where: { name: body?.name },
                 defaults: {
                     ...body,
-                    imageUrl: image[0].path,
+                    imageUrl,
                     subImageUrls,
                 },
             });
@@ -115,13 +128,13 @@ export const createProduct = (body, image, images) =>
             // if (image && isCreate === false) cloudinary.uploader.destroy(image.filename);
             if (image && isCreate === false)
                 cloudinary.uploader.destroy(image.filename, (err, res) => {
-                    // console.log('cloudinary err>>', err);
-                    // console.log('image.filename', image.filename);
-                    // console.log('cloudinary res>>', res);
+                    // // console.log(error);('cloudinary err>>', err);
+                    // // console.log(error);('image.filename', image.filename);
+                    // // console.log(error);('cloudinary res>>', res);
                 });
         } catch (error) {
             if (image) cloudinary.uploader.destroy(image.filename);
-            console.log(error);
+            // console.log(error);(error);
             reject(error);
         }
     });
@@ -132,7 +145,7 @@ export const updateProduct = (body, id, image, images) =>
             const responseFindOne = await db.Product.findOne({
                 where: { id },
             });
-            console.log('body.colors>', body.colors);
+            // console.log(error);('body.colors>', body.colors);
             const oldImgUrl = responseFindOne?.imageUrl;
 
             if (oldImgUrl) {
@@ -140,11 +153,18 @@ export const updateProduct = (body, id, image, images) =>
                 await cloudinary.uploader.destroy(fileName);
             }
 
-            const subImageUrls = images?.map((obj) => obj.path);
+            let imageUrl;
+            let subImageUrls;
+            if (image) {
+                imageUrl = image[0]?.path;
+            }
 
+            if (images) {
+                subImageUrls = images?.map((obj) => obj.path);
+            }
             const response = await db.Product.update(
-                // { ...body, imageUrl: image[0].path, subImageUrls },
-                { ...body },
+                { ...body, imageUrl, subImageUrls },
+                // { ...body },
                 {
                     where: {
                         id,
@@ -160,7 +180,7 @@ export const updateProduct = (body, id, image, images) =>
             if (image && isUpdated === false) cloudinary.uploader.destroy(image.filename);
         } catch (error) {
             if (image) cloudinary.uploader.destroy(image.filename);
-            console.log(error);
+            // console.log(error);(error);
             reject(error);
         }
     });
@@ -192,7 +212,7 @@ export const deleteProduct = (id) =>
                 data: isDelete,
             });
         } catch (error) {
-            console.log(error);
+            // console.log(error);(error);
             reject(error);
         }
     });

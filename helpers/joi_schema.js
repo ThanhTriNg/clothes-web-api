@@ -41,11 +41,18 @@ export const authSchema = {
 };
 
 //user
-export const userSchema = {
+export const userRoleSchema = {
     roleCode: Joi.string().valid('TA', 'TU'),
 };
+export const userSchema = {
+    lName: Joi.string(),
+    fName: Joi.string(),
+    phone: Joi.string(),
+    address: Joi.string(),
+    password: Joi.string(),
+    email: Joi.string(),
+};
 //category
-
 export const categorySchema = {
     name: Joi.string().required(),
     gender: Joi.string().valid('male', 'female', 'both').required(),
@@ -53,6 +60,12 @@ export const categorySchema = {
 export const updateCategorySchema = {
     name: Joi.string(),
     gender: Joi.string().valid('male', 'female', 'both'),
+};
+
+//sub category
+export const subCategorySchema = {
+    name: Joi.string().required(),
+    categoryId: Joi.number().required(),
 };
 
 //order
@@ -68,8 +81,8 @@ export const productSchema = {
     description: Joi.string(),
     descriptionSort: Joi.string(),
     subCategoryId: Joi.number(),
-    imageUrl: Joi.string(),
-    subImageUrls: Joi.string(),
+    imageUrl: Joi.any(),
+    subImageUrls: Joi.any(),
     colors: joiJson.array(),
     sizes: joiJson.array().sizes(),
     gender: Joi.string().valid('male', 'female', 'both'),
