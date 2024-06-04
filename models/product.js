@@ -10,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             Product.belongsTo(models.Sub_Category, { foreignKey: 'subCategoryId' });
+
+            // cai nay dung nhung ko can -- chac vay
+            // Product.belongsToMany(models.Cart, { through: models.Cart_item});
         }
     }
     Product.init(

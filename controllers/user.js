@@ -29,7 +29,7 @@ export const getAllUsers = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     try {
-        console.log('req.user controllers>>', req.user.id);
+        // console.log('req.user controllers>>', req.user.id);
         const { error } = Joi.object(userSchema).validate(req.body);
         if (error) {
             return badRequest(error.details[0].message, res);
