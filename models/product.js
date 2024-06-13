@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
             colors: DataTypes.JSON,
             gender: DataTypes.ENUM('male', 'female', 'both'),
             stock: DataTypes.INTEGER,
+            isDeleted: DataTypes.BOOLEAN,
         },
         {
             sequelize,

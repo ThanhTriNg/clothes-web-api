@@ -6,3 +6,4 @@ export * from "./subCategories";
 export * from "./insertData";
 export * from "./cart";
 export * from "./cartItem";
+export * from "./order";

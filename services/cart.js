@@ -6,7 +6,6 @@ export const createCart = (userId) =>
             const response = await db.Cart.findOrCreate({
                 where: { userId },
             });
-            console.log(response);
             resolve({
                 response,
                 err: response[1] ? 0 : 1,
@@ -24,7 +23,6 @@ export const getCart = (userId) =>
                 where: { userId },
                 include: [{ model: db.Cart_item }],
             });
-            console.log(response);
             resolve({
                 err: response ? 0 : 1,
                 message: response ? 'Successfully' : `Not found `,
@@ -32,7 +30,6 @@ export const getCart = (userId) =>
             });
         } catch (error) {
             reject(error);
-            console.log(error);
         }
     });
 
@@ -40,42 +37,6 @@ export const getCart = (userId) =>
 export const addItemIntoCart = (body, userId) =>
     new Promise(async (resolve, reject) => {
         try {
-            // // console.log(body);
-            // // const responseCart = await db.Cart.findOne({
-            // //     where: { userId },
-            // //     include: [{ model: db.Cart_item }],
-            // // });
-            // // console.log(responseCart);
-            // const findOrCreateCart = await db.Cart.findOrCreate({
-            //     where: { userId },
-            //     include: [{ model: db.Cart_item }],
-            // });
-            // const cartId = findOrCreateCart[0].id;
-
-            // //findOrCreateCart[1] return boolean create or not, true = create, false = exist
-            // if (findOrCreateCart[1]) {
-            //     body.forEach(async (element) => {
-            //         //add new cartItem into cart
-            //         await db.Cart_item.create({
-            //             productId: element.product.id,
-            //             cartId,
-            //         });
-            //     });
-            // } else {
-            //     //delete all item have cartId
-            //     await db.Cart_item.destroy({
-            //         where: { cartId },
-            //     });
-
-            //     body.forEach(async (element) => {
-            //         //add new cartItem into cart
-            //         await db.Cart_item.create({
-            //             productId: element.product.id,
-            //             cartId,
-            //         });
-            //     });
-            // }
-
             const [responseCart, isCreatedCart] = await db.Cart.findOrCreate({
                 where: { userId },
                 include: [{ model: db.Cart_item }],
@@ -106,7 +67,6 @@ export const addItemIntoCart = (body, userId) =>
                     where: { cartId, productId, size, color },
                 });
                 if (existingCartItem) {
-                    console.log(quantity);
                     // Update quantity if item exists
                     await existingCartItem.update({ quantity });
                 } else {
@@ -115,12 +75,10 @@ export const addItemIntoCart = (body, userId) =>
                 }
             }
 
-            console.log(newItemsIdentifiers);
             resolve({
                 message: 'ok',
             });
         } catch (error) {
-            console.log(error);
             reject(error);
         }
     });

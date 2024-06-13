@@ -53,6 +53,10 @@ module.exports = {
                     key: 'id',
                 },
             },
+            isDeleted: {
+                type: Sequelize.BOOLEAN,
+                defaultValue: false,
+            },
             createdAt: {
                 allowNull: false,
                 type: 'TIMESTAMP',

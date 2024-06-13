@@ -56,14 +56,12 @@ export const createCategory = (body) =>
 
 export const updateCategory = (body, id) =>
     new Promise(async (resolve, reject) => {
-        // console.log(error);(body, id);
         try {
             const response = await db.Category.update(body, {
                 where: {
                     id,
                 },
             });
-            // console.log(error);(response);
             const isUpdated = response[0] === 1 ? true : false;
             resolve({
                 err: isUpdated ? 0 : 1,
@@ -83,7 +81,6 @@ export const deleteCategory = (id) =>
                     id,
                 },
             });
-            // console.log(error);(response);
 
             const isDelete = response ? true : false;
             resolve({

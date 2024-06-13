@@ -7,10 +7,8 @@ export const verifyToken = (req, res, next) => {
     }
     const accessToken = token.split(' ')[1];
     verify(accessToken, process.env.JWT_SECRET, (err, user) => {
-        // console.log(error);(err);
         if (err) return unAuth('Access token maybe expired or invalid', res);
         req.user = user;
-        // console.log('req.user>>', req.user);
         next();
     });
 };

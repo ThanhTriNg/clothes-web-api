@@ -23,7 +23,6 @@ export const register = ({ email, password }) =>
                 message: response[1] ? 'Register is successfully' : 'Email is used',
             });
         } catch (error) {
-            // console.log(error);(error);
 
             reject(error);
         }
@@ -51,7 +50,6 @@ export const login = ({ email, password }) =>
                 access_token: token,
             });
         } catch (error) {
-            // console.log(error);(error);
             reject(error);
         }
     });

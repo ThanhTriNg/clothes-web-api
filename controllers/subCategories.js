@@ -10,7 +10,6 @@ export const getAllSubCategories = async (req, res) => {
         const response = await services.getAllSubCategories(req.query);
         return res.status(200).json(response);
     } catch (error) {
-        // console.log(error);(error);
         return InternalServerError(res);
     }
 };
@@ -20,7 +19,6 @@ export const getSubCategory = async (req, res) => {
         const response = await services.getSubCategory(id);
         return res.status(200).json(response);
     } catch (error) {
-        // console.log(error);(error);
         return InternalServerError(res);
     }
 };
@@ -28,7 +26,6 @@ export const getSubCategory = async (req, res) => {
 export const createSubCategory = async (req, res) => {
     try {
         const { error } = Joi.object(subCategorySchema).validate(req.body);
-        // console.log(error);('error>>', error);
         if (error) {
             return badRequest(error.details[0].message, res);
         }
@@ -36,7 +33,6 @@ export const createSubCategory = async (req, res) => {
         const response = await services.createSubCategory(req.body);
         return res.status(200).json(response);
     } catch (error) {
-        // console.log(error);(error);
         return InternalServerError(res);
     }
 };

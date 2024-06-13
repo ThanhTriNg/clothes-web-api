@@ -61,7 +61,6 @@ export const getAllProducts = ({
                 totalCount,
             });
         } catch (error) {
-            // console.log(error);(error);
             reject(error);
         }
     });
@@ -90,7 +89,6 @@ export const getProduct = (id) =>
                 data: response,
             });
         } catch (error) {
-            // console.log(error);(error);
             reject(error);
         }
     });
@@ -98,11 +96,9 @@ export const getProduct = (id) =>
 export const createProduct = (body, image, images) =>
     new Promise(async (resolve, reject) => {
         try {
-            // // console.log(error);('image, images>>>', image, images);
             let subImageUrls;
             let imageUrl;
-            // // console.log(error);('image service', image);
-            // // console.log(error);('images service', images);
+           
             if (image) {
                 imageUrl = image[0]?.path;
             }
@@ -110,8 +106,7 @@ export const createProduct = (body, image, images) =>
             if (images) {
                 subImageUrls = images?.map((obj) => obj.path);
             }
-            // console.log(error);('imageUrl>>', imageUrl);
-            // console.log(error);('subImageUrls>>', subImageUrls);
+            
             const response = await db.Product.findOrCreate({
                 where: { name: body?.name },
                 defaults: {
@@ -128,13 +123,12 @@ export const createProduct = (body, image, images) =>
             // if (image && isCreate === false) cloudinary.uploader.destroy(image.filename);
             if (image && isCreate === false)
                 cloudinary.uploader.destroy(image.filename, (err, res) => {
-                    // // console.log(error);('cloudinary err>>', err);
-                    // // console.log(error);('image.filename', image.filename);
-                    // // console.log(error);('cloudinary res>>', res);
+                    //  console.log('cloudinary err>>', err);
+                    //  console.log('image.filename', image.filename);
+                    //  console.log('cloudinary res>>', res);
                 });
         } catch (error) {
             if (image) cloudinary.uploader.destroy(image.filename);
-            // console.log(error);(error);
             reject(error);
         }
     });
@@ -145,7 +139,6 @@ export const updateProduct = (body, id, image, images) =>
             const responseFindOne = await db.Product.findOne({
                 where: { id },
             });
-            // console.log(error);('body.colors>', body.colors);
             const oldImgUrl = responseFindOne?.imageUrl;
 
             if (oldImgUrl) {
@@ -180,7 +173,6 @@ export const updateProduct = (body, id, image, images) =>
             if (image && isUpdated === false) cloudinary.uploader.destroy(image.filename);
         } catch (error) {
             if (image) cloudinary.uploader.destroy(image.filename);
-            // console.log(error);(error);
             reject(error);
         }
     });
@@ -212,7 +204,6 @@ export const deleteProduct = (id) =>
                 data: isDelete,
             });
         } catch (error) {
-            // console.log(error);(error);
             reject(error);
         }
     });
