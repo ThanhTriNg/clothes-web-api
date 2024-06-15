@@ -21,7 +21,14 @@ export const getCart = (userId) =>
         try {
             const response = await db.Cart.findAll({
                 where: { userId },
-                include: [{ model: db.Cart_item }],
+                include: [
+                    {
+                        model: db.Cart_item,
+                        attributes: {
+                            exclude: ['CartId'],
+                        },
+                    },
+                ],
             });
             resolve({
                 err: response ? 0 : 1,
