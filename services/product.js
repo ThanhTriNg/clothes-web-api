@@ -98,7 +98,7 @@ export const createProduct = (body, image, images) =>
         try {
             let subImageUrls;
             let imageUrl;
-           
+
             if (image) {
                 imageUrl = image[0]?.path;
             }
@@ -106,7 +106,7 @@ export const createProduct = (body, image, images) =>
             if (images) {
                 subImageUrls = images?.map((obj) => obj.path);
             }
-            
+
             const response = await db.Product.findOrCreate({
                 where: { name: body?.name },
                 defaults: {
@@ -177,31 +177,72 @@ export const updateProduct = (body, id, image, images) =>
         }
     });
 
+// export const deleteProduct = (id) =>
+//     new Promise(async (resolve, reject) => {
+//         try {
+//             const responseFindOne = await db.Product.findOne({
+//                 where: {
+//                     id,
+//                 },
+//             });
+//             const oldImgUrl = responseFindOne?.imageUrl;
+
+//             if (oldImgUrl) {
+//                 const fileName = getFileNameFromUrl(oldImgUrl);
+//                 await cloudinary.uploader.destroy(fileName);
+//             }
+
+//             const response = await db.Product.destroy({
+//                 where: {
+//                     id,
+//                 },
+//             });
+//             const isDelete = response ? true : false;
+//             resolve({
+//                 err: isDelete ? 0 : 1,
+//                 message: isDelete ? 'Successfully' : `Not found id = ${id}`,
+//                 data: isDelete,
+//             });
+//         } catch (error) {
+//             reject(error);
+//         }
+//     });
+
 export const deleteProduct = (id) =>
     new Promise(async (resolve, reject) => {
         try {
-            const responseFindOne = await db.Product.findOne({
-                where: {
-                    id,
-                },
-            });
-            const oldImgUrl = responseFindOne?.imageUrl;
+            // const responseFindOne = await db.Product.findOne({
+            //     where: {
+            //         id,
+            //     },
+            // });
+            // const oldImgUrl = responseFindOne?.imageUrl;
 
-            if (oldImgUrl) {
-                const fileName = getFileNameFromUrl(oldImgUrl);
-                await cloudinary.uploader.destroy(fileName);
-            }
+            // if (oldImgUrl) {
+            //     const fileName = getFileNameFromUrl(oldImgUrl);
+            //     await cloudinary.uploader.destroy(fileName);
+            // }
 
-            const response = await db.Product.destroy({
-                where: {
-                    id,
+            // const response = await db.Product.destroy({
+            //     where: {
+            //         id,
+            //     },
+            // });
+            // const isDelete = response ? true : false;
+
+            const response = await db.Product.update(
+                { isDeleted: true },
+                // { ...body },
+                {
+                    where: {
+                        id,
+                    },
                 },
-            });
-            const isDelete = response ? true : false;
+            );
+
             resolve({
-                err: isDelete ? 0 : 1,
-                message: isDelete ? 'Successfully' : `Not found id = ${id}`,
-                data: isDelete,
+                err: response[0] ? 0 : 1,
+                message: response[0] ? 'Successfully' : `Not found id = ${id}`,
             });
         } catch (error) {
             reject(error);

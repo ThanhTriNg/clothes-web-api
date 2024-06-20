@@ -34,7 +34,8 @@ export const createOrder = (body, userId) =>
 
             const responseOrder = await db.Order.create({
                 userId,
-                userNameAtOrderTime: responseUser.fName,
+                userLNameAtOrderTime: responseUser.lName,
+                userFNameAtOrderTime: responseUser.fName,
                 userAddressAtOrderTime: responseUser.address,
                 userPhoneAtOrderTime: responseUser.phone,
             });

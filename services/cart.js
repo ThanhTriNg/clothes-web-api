@@ -48,40 +48,48 @@ export const addItemIntoCart = (body, userId) =>
                 where: { userId },
                 include: [{ model: db.Cart_item }],
             });
-
             const cartId = responseCart.id;
-
-            const newItemsIdentifiers = body.map((item) => ({
-                productId: item.product.id,
-                color: item.color,
-                size: item.size,
-            }));
-
-            // Remove old cart items that are not in the new body
-            await db.Cart_item.destroy({
-                where: {
-                    cartId,
-                    [db.Sequelize.Op.not]: newItemsIdentifiers,
-                },
-            });
-
-            for (const item of body) {
-                const { id: productId } = item.product;
-                const size = item.size;
-                const quantity = item.quantity;
-                const color = item.color;
-                const existingCartItem = await db.Cart_item.findOne({
-                    where: { cartId, productId, size, color },
+            
+            if (body.length > 0) {
+                const newItemsIdentifiers = body.map((item) => ({
+                    productId: item.product.id,
+                    color: item.color,
+                    size: item.size,
+                }));
+                // Remove old cart items that are not in the new body
+                await db.Cart_item.destroy({
+                    where: {
+                        cartId,
+                        [db.Sequelize.Op.not]: newItemsIdentifiers,
+                    },
                 });
-                if (existingCartItem) {
-                    // Update quantity if item exists
-                    await existingCartItem.update({ quantity });
-                } else {
-                    //   Create new cart item if it doesn't exist
-                    await db.Cart_item.create({ cartId, productId, quantity, size, color });
+
+                for (const item of body) {
+                    const { id: productId } = item.product;
+                    const size = item.size;
+                    const quantity = item.quantity;
+                    const color = item.color;
+                    const existingCartItem = await db.Cart_item.findOne({
+                        where: { cartId, productId, size, color },
+                    });
+                    if (existingCartItem) {
+                        // Update quantity if item exists
+                        await existingCartItem.update({ quantity });
+                    } else {
+                        //   Create new cart item if it doesn't exist
+                        await db.Cart_item.create({ cartId, productId, quantity, size, color });
+                    }
                 }
             }
-
+            //body length = 0
+            else {
+                // Remove all cart Item
+                await db.Cart_item.destroy({
+                    where: {
+                        cartId,
+                    },
+                });
+            }
             resolve({
                 message: 'ok',
             });

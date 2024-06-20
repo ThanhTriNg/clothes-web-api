@@ -16,7 +16,10 @@ module.exports = {
                     key: 'id',
                 },
             },
-            userNameAtOrderTime: {
+            userLNameAtOrderTime: {
+                type: Sequelize.STRING,
+            },
+            userFNameAtOrderTime: {
                 type: Sequelize.STRING,
             },
             userAddressAtOrderTime: {
