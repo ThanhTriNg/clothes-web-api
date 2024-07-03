@@ -62,10 +62,10 @@ export const createOrder = (body, userId) =>
                     imageUrlAtOrderTime: productImageUrl,
                 };
             });
-            await db.Order_item.bulkCreate(orderItems);
+            const res = await db.Order_item.bulkCreate(orderItems);
 
             resolve({
-                message: 'ok',
+                message: res ? 'Your order is confirmed' : 'Failed',
             });
         } catch (error) {
             reject(error);

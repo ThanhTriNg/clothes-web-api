@@ -83,8 +83,10 @@ export const getProduct = (id) =>
                     },
                 ],
             });
+            console.log('response>>', response);
 
             resolve({
+                err: response ? 0 : 1,
                 message: response ? 'Successfully' : `Not found id = ${id}`,
                 data: response,
             });
@@ -148,6 +150,9 @@ export const updateProduct = (body, id, image, images) =>
 
             let imageUrl;
             let subImageUrls;
+
+            console.log('imageUrl', imageUrl);
+            console.log('subImageUrls', subImageUrls);
             if (image) {
                 imageUrl = image[0]?.path;
             }

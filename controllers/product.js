@@ -34,6 +34,8 @@ export const getProduct = async (req, res) => {
 export const createProduct = async (req, res) => {
     try {
         const images = req.files;
+        console.log('req.file>>', req.file);
+        console.log('req.files>>', req.files);
 
         const { error } = Joi.object(productSchema).validate({ ...req.body });
         if (error) {
@@ -62,8 +64,6 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
     try {
         const images = req.files;
-        const image = req.file;
-
         const id = req.params.id;
         // const { error } = Joi.object(updateProductSchema).validate({ ...req.body });
         // if (error) {
@@ -82,6 +82,7 @@ export const updateProduct = async (req, res) => {
         const response = await services.updateProduct(req.body, id, images.imageUrl, images.subImageUrls);
         return res.status(200).json(response);
     } catch (error) {
+        console.log(error);
         return InternalServerError(res);
     }
 };
