@@ -32,9 +32,8 @@ export const getAllProducts = ({
                 key,
             });
             const { count, rows } = await db.Product.findAndCountAll({
-                attributes: attributes,
-                where: query,
-
+                attributes: { ...attributes, exclude: ['isDeleted'] },
+                where: { ...query, isDeleted: false },
                 ...queries,
 
                 include: [
@@ -234,7 +233,6 @@ export const deleteProduct = (id) =>
             //     },
             // });
             // const isDelete = response ? true : false;
-
             const response = await db.Product.update(
                 { isDeleted: true },
                 // { ...body },
