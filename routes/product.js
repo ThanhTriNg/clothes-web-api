@@ -21,7 +21,8 @@ router.get('/:id', getProduct);
 // need admin account
 router.use(verifyToken);
 router.use(isAdmin);
-router.post('/', uploadImage, createProduct);
+// router.post('/', uploadImage, createProduct);
+router.post('/', createProduct);
 router.patch('/:id', uploadImage, updateProduct);
 router.delete('/:id', deleteProduct);
 

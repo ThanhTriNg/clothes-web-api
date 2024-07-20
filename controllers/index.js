@@ -7,3 +7,4 @@ export * from "./insertData";
 export * from "./cart";
 export * from "./cartItem";
 export * from "./order";
+export * from "./media";

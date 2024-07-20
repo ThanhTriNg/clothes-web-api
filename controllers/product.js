@@ -33,28 +33,16 @@ export const getProduct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const images = req.files;
-        console.log('req.file>>', req.file);
-        console.log('req.files>>', req.files);
+        // const images = req.files;
+        // console.log('req.file>>', req.file);
+        // console.log('req.files>>', req.files);
 
         const { error } = Joi.object(productSchema).validate({ ...req.body });
         if (error) {
-            if (images) {
-                if (images.imageUrl) {
-                    images.imageUrl.forEach((img) => {
-                        cloudinary.uploader.destroy(img.filename);
-                    });
-                }
-                if (images.subImageUrls) {
-                    images.subImageUrls.forEach((img) => {
-                        cloudinary.uploader.destroy(img.filename);
-                    });
-                }
-            }
             return badRequest(error.details[0].message, res);
         }
 
-        const response = await services.createProduct(req.body, images.imageUrl, images.subImageUrls);
+        const response = await services.createProduct(req.body);
         return res.status(200).json(response);
     } catch (error) {
         return InternalServerError(res);

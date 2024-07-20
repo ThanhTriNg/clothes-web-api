@@ -31,6 +31,7 @@ export const getAllProducts = ({
                 order,
                 key,
             });
+
             const { count, rows } = await db.Product.findAndCountAll({
                 attributes: { ...attributes, exclude: ['isDeleted'] },
                 where: { ...query, isDeleted: false },
@@ -94,27 +95,24 @@ export const getProduct = (id) =>
         }
     });
 
-export const createProduct = (body, image, images) =>
+export const createProduct = (body) =>
     new Promise(async (resolve, reject) => {
         try {
-            let subImageUrls;
-            let imageUrl;
+            // let imageUrl;
+            // let subImageUrls;
 
-            if (image) {
-                imageUrl = image[0]?.path;
-            }
+            // if (image) {
+            //     imageUrl = image[0]?.path;
+            // }
 
-            if (images) {
-                subImageUrls = images?.map((obj) => obj.path);
-            }
+            // if (images) {
+            //     subImageUrls = images?.map((obj) => obj.path);
+            // }
+            console.log('body>>', body);
 
             const response = await db.Product.findOrCreate({
                 where: { name: body?.name },
-                defaults: {
-                    ...body,
-                    imageUrl,
-                    subImageUrls,
-                },
+                defaults: body,
             });
             const isCreate = response[1] ? true : false;
             resolve({
@@ -122,14 +120,14 @@ export const createProduct = (body, image, images) =>
                 message: isCreate ? 'Created' : 'Product name already exists',
             });
             // if (image && isCreate === false) cloudinary.uploader.destroy(image.filename);
-            if (image && isCreate === false)
-                cloudinary.uploader.destroy(image.filename, (err, res) => {
-                    //  console.log('cloudinary err>>', err);
-                    //  console.log('image.filename', image.filename);
-                    //  console.log('cloudinary res>>', res);
-                });
+            // if (image && isCreate === false)
+            //     cloudinary.uploader.destroy(image.filename, (err, res) => {
+            //         //  console.log('cloudinary err>>', err);
+            //         //  console.log('image.filename', image.filename);
+            //         //  console.log('cloudinary res>>', res);
+            //     });
         } catch (error) {
-            if (image) cloudinary.uploader.destroy(image.filename);
+            // if (image) cloudinary.uploader.destroy(image.filename);
             reject(error);
         }
     });

@@ -5,7 +5,6 @@ const hashPassword = (password) => {
     const salt = bcrypt.genSaltSync(15);
     const hash = bcrypt.hashSync(password, salt);
     return hash;
-    3;
 };
 export const register = ({ email, password }) =>
     new Promise(async (resolve, reject) => {
@@ -23,7 +22,6 @@ export const register = ({ email, password }) =>
                 message: response[1] ? 'Register is successfully' : 'Email is used',
             });
         } catch (error) {
-
             reject(error);
         }
     });
@@ -41,7 +39,7 @@ export const login = ({ email, password }) =>
                 ? jwt.sign(
                       { id: response.id, email: response.email, roleCode: response.roleCode },
                       process.env.JWT_SECRET,
-                      { expiresIn: '1d' },
+                      { expiresIn: '7d' },
                   )
                 : null;
             resolve({
