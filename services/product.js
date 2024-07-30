@@ -132,33 +132,23 @@ export const createProduct = (body) =>
         }
     });
 
-export const updateProduct = (body, id, image, images) =>
+export const updateProduct = (body, id) =>
     new Promise(async (resolve, reject) => {
         try {
-            const responseFindOne = await db.Product.findOne({
-                where: { id },
-            });
-            const oldImgUrl = responseFindOne?.imageUrl;
+            // let imageUrl;
+            // let subImageUrls;
 
-            if (oldImgUrl) {
-                const fileName = getFileNameFromUrl(oldImgUrl);
-                await cloudinary.uploader.destroy(fileName);
-            }
+            // console.log('imageUrl', imageUrl);
+            // console.log('subImageUrls', subImageUrls);
+            // if (image) {
+            //     imageUrl = image[0]?.path;
+            // }
 
-            let imageUrl;
-            let subImageUrls;
-
-            console.log('imageUrl', imageUrl);
-            console.log('subImageUrls', subImageUrls);
-            if (image) {
-                imageUrl = image[0]?.path;
-            }
-
-            if (images) {
-                subImageUrls = images?.map((obj) => obj.path);
-            }
+            // if (images) {
+            //     subImageUrls = images?.map((obj) => obj.path);
+            // }
             const response = await db.Product.update(
-                { ...body, imageUrl, subImageUrls },
+                { ...body },
                 // { ...body },
                 {
                     where: {
@@ -172,9 +162,7 @@ export const updateProduct = (body, id, image, images) =>
                 message: isUpdated ? 'Successfully' : `Not found id = ${id}`,
                 data: isUpdated,
             });
-            if (image && isUpdated === false) cloudinary.uploader.destroy(image.filename);
         } catch (error) {
-            if (image) cloudinary.uploader.destroy(image.filename);
             reject(error);
         }
     });

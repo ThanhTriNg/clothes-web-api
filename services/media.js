@@ -9,7 +9,7 @@ export const getMedia = (nextCursor) =>
                 {
                     type: 'upload',
                     // prefix: 'images-clothes-web',
-                    max_results: 2,
+                    max_results: 999,
                     next_cursor: nextCursor,
                     direction: 'desc',
                     sort_by: 'created_at',
