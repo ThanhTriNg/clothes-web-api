@@ -24,13 +24,7 @@ export const getAllProducts = ({
                 const subCateArray = subCategoryId.split(',').map(Number);
                 query.subCategoryId = { [Op.or]: [subCateArray] };
             }
-            const { queries, attributes } = generatePaginationAndSortQueries({
-                page,
-                pageSize,
-                sort,
-                order,
-                key,
-            });
+            const { queries, attributes } = generatePaginationAndSortQueries(page, pageSize, sort, order, key);
 
             const { count, rows } = await db.Product.findAndCountAll({
                 attributes: { ...attributes, exclude: ['isDeleted'] },

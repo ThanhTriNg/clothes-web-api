@@ -1,4 +1,4 @@
-export const generatePaginationAndSortQueries = ({ page, pageSize, sort, order, key }) => {
+export const generatePaginationAndSortQueries = (page, pageSize, sort, order, key) => {
     const attributes = key?.length > 0 ? key.split(',') : null;
     console.log('attributes>>', attributes);
     const queries = { distinct: true };
@@ -13,4 +13,13 @@ export const generatePaginationAndSortQueries = ({ page, pageSize, sort, order, 
         queries.order = [[sort, order]];
     }
     return { queries, attributes };
+};
+
+export const orderPaginationAndSortQueries = (page, pageSize) => {
+    const queries = { distinct: true };
+    const offset = (page - 1) * pageSize;
+    queries.offset = +offset;
+    queries.limit = +pageSize;
+    queries.order = [['createdAt', 'DESC']];
+    return queries;
 };

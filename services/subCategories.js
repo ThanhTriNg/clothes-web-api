@@ -15,18 +15,11 @@ export const getAllSubCategories = ({
 }) =>
     new Promise(async (resolve, reject) => {
         try {
-            const { queries, attributes } = generatePaginationAndSortQueries({
-                page,
-                pageSize,
-                sort,
-                order,
-                key,
-            });
+            const { queries, attributes } = generatePaginationAndSortQueries(page, pageSize, sort, order, key);
             const response = await db.Sub_Category.findAll({
                 attributes: attributes,
                 where: query,
                 ...queries,
-           
             });
             resolve({
                 err: response ? 0 : 1,

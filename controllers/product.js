@@ -51,7 +51,6 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
-        const images = req.files;
         const id = req.params.id;
         console.log('req.body>>>', req.body);
         // const { error } = Joi.object(updateProductSchema).validate({ ...req.body });
@@ -68,7 +67,7 @@ export const updateProduct = async (req, res) => {
         //     }
         //     return badRequest(error.details[0].message, res);
         // }
-        const response = await services.updateProduct(req.body, id, images.imageUrl, images.subImageUrls);
+        const response = await services.updateProduct(req.body, id);
         return res.status(200).json(response);
     } catch (error) {
         console.log(error);
