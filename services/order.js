@@ -1,14 +1,21 @@
 import { orderPaginationAndSortQueries } from '../helpers/servicesQueries';
 import db from '../models';
+import { Op } from 'sequelize';
 
 //get order for admin
-export const getAllOrdersAdmin = ({ page = process.env.PAGE, pageSize = process.env.PAGE_SIZE }) =>
+export const getAllOrdersAdmin = ({ page = process.env.PAGE, pageSize = process.env.PAGE_SIZE, orderID, ...query }) =>
     new Promise(async (resolve, reject) => {
         try {
             const queries = orderPaginationAndSortQueries(page, pageSize);
 
+            if (orderID) {
+                query.id = { [Op.substring]: orderID };
+            }
+            console.log('orderID>>', orderID);
             const { count, rows } = await db.Order.findAndCountAll({
                 ...queries,
+                where: { ...query },
+
                 include: [
                     {
                         model: db.Order_item,
@@ -34,23 +41,23 @@ export const getAllOrdersAdmin = ({ page = process.env.PAGE, pageSize = process.
         }
     });
 
-//get order for admin
-export const getAllOrdersAdminById = (orderId) =>
-    new Promise(async (resolve, reject) => {
-        try {
-            const response = await db.Order_item.findAll({
-                where: { orderId },
-            });
+// //get order for admin
+// export const getAllOrdersAdminById = (orderId) =>
+//     new Promise(async (resolve, reject) => {
+//         try {
+//             const response = await db.Order_item.findAll({
+//                 where: { orderId },
+//             });
 
-            resolve({
-                // err: response ? 0 : 1,
-                // message: response ? 'Successfully' : `Not found `,
-                data: response,
-            });
-        } catch (error) {
-            reject(error);
-        }
-    });
+//             resolve({
+//                 // err: response ? 0 : 1,
+//                 // message: response ? 'Successfully' : `Not found `,
+//                 data: response,
+//             });
+//         } catch (error) {
+//             reject(error);
+//         }
+//     });
 
 //get order for user
 export const getOrderByUser = (userId, { page = process.env.PAGE, pageSize = process.env.PAGE_SIZE }) =>

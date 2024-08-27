@@ -11,16 +11,16 @@ export const getAllOrdersAdmin = async (req, res) => {
         return InternalServerError(res);
     }
 };
-export const getAllOrdersAdminById = async (req, res) => {
-    try {
-        const orderId = req.params.id;
-        const response = await services.getAllOrdersAdminById(orderId);
-        return res.status(200).json(response);
-    } catch (error) {
-        console.log(error);
-        return InternalServerError(res);
-    }
-};
+// export const getAllOrdersAdminById = async (req, res) => {
+//     try {
+//         const orderId = req.params.id;
+//         const response = await services.getAllOrdersAdminById(orderId);
+//         return res.status(200).json(response);
+//     } catch (error) {
+//         console.log(error);
+//         return InternalServerError(res);
+//     }
+// };
 //for user
 export const getOrderByUser = async (req, res) => {
     try {
