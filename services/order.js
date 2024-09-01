@@ -1,21 +1,28 @@
-import { orderPaginationAndSortQueries } from '../helpers/servicesQueries';
+import { generatePaginationAndSortQueries, orderPaginationAndSortQueries } from '../helpers/servicesQueries';
 import db from '../models';
 import { Op } from 'sequelize';
 
 //get order for admin
-export const getAllOrdersAdmin = ({ page = process.env.PAGE, pageSize = process.env.PAGE_SIZE, orderID, ...query }) =>
+export const getAllOrdersAdmin = ({
+    page = process.env.PAGE,
+    pageSize = process.env.PAGE_SIZE,
+    sort,
+    order,
+    key,
+    orderID,
+    ...query
+}) =>
     new Promise(async (resolve, reject) => {
         try {
-            const queries = orderPaginationAndSortQueries(page, pageSize);
-
+            const { queries, attributes } = generatePaginationAndSortQueries(page, pageSize, sort, order, key);
+            console.log('queries>>', queries);
             if (orderID) {
                 query.id = { [Op.substring]: orderID };
             }
-            console.log('orderID>>', orderID);
             const { count, rows } = await db.Order.findAndCountAll({
-                ...queries,
+                attributes: { ...attributes },
                 where: { ...query },
-
+                ...queries,
                 include: [
                     {
                         model: db.Order_item,
@@ -60,14 +67,19 @@ export const getAllOrdersAdmin = ({ page = process.env.PAGE, pageSize = process.
 //     });
 
 //get order for user
-export const getOrderByUser = (userId, { page = process.env.PAGE, pageSize = process.env.PAGE_SIZE }) =>
+export const getOrderByUser = (
+    userId,
+    { page = process.env.PAGE, pageSize = process.env.PAGE_SIZE, sort, order, key },
+) =>
     new Promise(async (resolve, reject) => {
         try {
-            const queries = orderPaginationAndSortQueries(page, pageSize);
+            // const queries = orderPaginationAndSortQueries(page, pageSize);
+            const { queries, attributes } = generatePaginationAndSortQueries(page, pageSize, sort, order, key);
 
             const { count, rows } = await db.Order.findAndCountAll({
-                ...queries,
+                attributes: { ...attributes },
                 where: { userId },
+                ...queries,
                 include: [
                     {
                         model: db.Order_item,

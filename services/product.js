@@ -18,6 +18,7 @@ export const getAllProducts = ({
 }) =>
     new Promise(async (resolve, reject) => {
         try {
+            console.log('key>>', key);
             if (name) query.name = { [Op.substring]: name };
             if (minPrice && maxPrice) query.price = { [Op.between]: [minPrice, maxPrice] };
             if (subCategoryId) {
